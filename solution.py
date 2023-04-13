@@ -1,11 +1,14 @@
 import pandas as pd
 import numpy as np
+from scipy.stats import permutation_test
 
 
-chat_id = 123456 # Ваш chat ID, не меняйте название переменной
+chat_id = 721973830
 
-def solution(...) -> bool: # Одна или две выборке на входе, заполняется исходя из условия
-    # Измените код этой функции
-    # Это будет вашим решением
-    # Не меняйте название функции и её аргументы
-    return ... # Ваш ответ, True или False
+def statistic(x, y):
+    return np.mean(x) - np.mean(y)
+
+def solution(x: np.array, y: np.array) -> bool:
+    alpha = 0.03
+    _, pval, _ = permutation_test((x, y), statistic, vectorized=True, alternative='less')
+    return pval < alpha
